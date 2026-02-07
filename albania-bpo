@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Adriatic Advantage - Albania's BPO Success Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --adriatic-blue: #1e5a8e;
+            --mediterranean-teal: #2a7f7f;
+            --warm-sand: #d4a574;
+            --deep-navy: #1a3a52;
+            --light-cream: #faf8f5;
+            --soft-grey: #e8e6e1;
+            --text-dark: #2c2c2c;
+            --text-light: #5a5a5a;
+            --accent-coral: #d97555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--light-cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 248, 245, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(30, 90, 142, 0.1);
+        }
+        
+        .nav-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.1rem;
+            color: var(--adriatic-blue);
+            font-weight: 700;
+        }
+        
+        .nav-dots {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--soft-grey);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background: var(--adriatic-blue);
+            transform: scale(1.4);
+        }
+        
+        .nav-dot:hover {
+            background: var(--mediterranean-teal);
+        }
+        
+        /* Page Container */
+        .page-container {
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            padding: 8rem 3rem 4rem;
+        }
+        
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* Content Layout */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0 6rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--deep-navy);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero-subtitle {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--adriatic-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 2px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+        
+        .hero-cta:hover {
+            background: var(--mediterranean-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 90, 142, 0.3);
+        }
+        
+        /* Typography */
+        h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.8rem;
+            color: var(--deep-navy);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.8rem;
+            color: var(--adriatic-blue);
+            margin: 3rem 0 1.5rem;
+            font-weight: 700;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+        
+        /* Article Grid */
+        .article-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .main-content {
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 8rem;
+            animation: fadeInUp 0.8s ease 0.3s backwards;
+        }
+        
+        /* Pull Quotes */
+        .pull-quote {
+            background: linear-gradient(135deg, var(--adriatic-blue) 0%, var(--mediterranean-teal) 100%);
+            color: white;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border-left: 4px solid var(--warm-sand);
+            position: relative;
+            animation: slideInLeft 0.6s ease;
+        }
+        
+        .pull-quote::before {
+            content: '"';
+            font-family: 'Libre Baskerville', serif;
+            font-size: 6rem;
+            position: absolute;
+            top: -1rem;
+            left: 1rem;
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .pull-quote-text {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote-author {
+            font-size: 0.95rem;
+            font-weight: 600;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Data Highlights */
+        .data-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--warm-sand);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .data-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .data-number {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--adriatic-blue);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .data-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, rgba(30, 90, 142, 0.05) 0%, rgba(42, 127, 127, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 2px;
+            text-align: center;
+            border: 1px solid rgba(30, 90, 142, 0.1);
+        }
+        
+        .stat-value {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--mediterranean-teal);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        /* Inline Highlights */
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 116, 0.3) 60%);
+            padding: 0 0.2rem;
+        }
+        
+        /* Navigation Arrows */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--soft-grey);
+        }
+        
+        .page-nav button {
+            padding: 0.8rem 2rem;
+            background: var(--deep-navy);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .page-nav button:hover:not(:disabled) {
+            background: var(--adriatic-blue);
+            transform: translateY(-2px);
+        }
+        
+        .page-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .nav-bar {
+                padding: 1rem 1.5rem;
+            }
+            
+            .page {
+                padding: 7rem 1.5rem 3rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Section Header */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+        
+        .section-number {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1rem;
+            color: var(--warm-sand);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="nav-title">The Adriatic Advantage</div>
+        <div class="nav-dots">
+            <div class="nav-dot active" data-page="0"></div>
+            <div class="nav-dot" data-page="1"></div>
+            <div class="nav-dot" data-page="2"></div>
+            <div class="nav-dot" data-page="3"></div>
+            <div class="nav-dot" data-page="4"></div>
+            <div class="nav-dot" data-page="5"></div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- Page 0: Hero/Landing -->
+        <div class="page active" data-page="0">
+            <div class="content-wrapper">
+                <div class="hero">
+                    <h1 class="hero-title">The Adriatic Advantage</h1>
+                    <p class="hero-subtitle">Albania's BPO firms have proved that nearshoring need not mean compromise</p>
+                    <a href="#" class="hero-cta" onclick="navigateToPage(1); return false;">Read the Story</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 1: Introduction -->
+        <div class="page" data-page="1">
+            <div class="content-wrapper">
+                <div class="section-header">
+                    <div class="section-number">Chapter One</div>
+                    <h2>The New Calculus</h2>
+                </div>
+                
+                <div class="article-grid">
+                    <div class="main-content">
+                        <p>For decades, the global outsourcing industry operated on a simple calculus: distance equals savings. Western firms sent their back-office operations to distant shores—Manila, Mumbai, Cape Town—where labour costs were low and English proficiency high. The arrangement worked tolerably well, if you overlooked the 16-hour flights, inconvenient time zones, and occasional cultural misunderstandings.</p>
+
+                        <p>Now that calculus is being rewritten. Whilst business journals debate the future of nearshoring, <span class="highlight">Albania has been getting on with it</span>. For years, the country has hosted thriving BPO operations serving European clients—primarily Italian and German firms—with multilingual customer service, technical support, and increasingly sophisticated business processes.</p>
+
+                        <p>The country offers something rare in outsourcing: competence without compromise. What it lacks is recognition.</p>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">Our BPO operations bring more than two decades of proven expertise in customer experience and business support services, serving brands like Apple, Booking, Amazon.</div>
+                            <div class="pull-quote-author">Elona Ymeri, Assist Digital</div>
+                        </div>
+
+                        <h3>A Mature Sector</h3>
+
+                        <p>Albania's BPO market is a maturing sector that has moved beyond simple call-centre operations to encompass IT outsourcing, financial services, and increasingly sophisticated business processes.</p>
+
+                        <p>The largest players operate across multiple cities, offering services in Italian, English, German, French, Greek, and Spanish. But it is the breadth of the sector that impresses. Some <span class="highlight">800 call centres operate in Tirana alone</span>, employing roughly 12 per cent of the capital's workforce. This is an industry.</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-value">800</span>
+                                <div class="stat-description">Call centres in Tirana</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">12%</span>
+                                <div class="stat-description">Of Tirana's workforce in BPO</div>
+                            </div>
+                        </div>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">Albania's BPO sector grew the day we stopped offering 'people per hour' and started offering 'solutions per outcome'. We shifted from being a voice-based destination to becoming a nearshore ecosystem.</div>
+                            <div class="pull-quote-author">Arjodita Mustali, ABSL President</div>
+                        </div>
+
+                        <p>Over 50 per cent of Albania's workforce is fluent in multiple languages, including English, Italian, and German. Albanian pupils begin learning their first foreign language in third grade, their second in sixth. For a country of 2.8 million, this linguistic dexterity is a considerable asset.</p>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="data-card">
+                            <div class="data-number">50%+</div>
+                            <div class="data-label">Of Albania's workforce is multilingual</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">2-3hrs</div>
+                            <div class="data-label">Flight time to major European cities</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">20+</div>
+                            <div class="data-label">Years of BPO expertise</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button onclick="navigateToPage(0)">← Previous</button>
+                    <button onclick="navigateToPage(2)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Talent -->
+        <div class="page" data-page="2">
+            <div class="content-wrapper">
+                <div class="section-header">
+                    <div class="section-number">Chapter Two</div>
+                    <h2>The Talent Equation</h2>
+                </div>
+                
+                <div class="article-grid">
+                    <div class="main-content">
+                        <p>What sets Albanian BPO firms apart is not cost—though labour expenses do run below Western European levels—but capability. The country benefits from a demographic windfall: nearly a quarter of the population is aged 15-29, and <span class="highlight">64 per cent of young Albanians pursue undergraduate degrees</span>, far surpassing the 36 per cent rate in Britain. The country produces 33,000 university graduates annually, concentrated in business administration, IT, and engineering.</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-value">64%</span>
+                                <div class="stat-description">Young Albanians in higher education</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">33,000</span>
+                                <div class="stat-description">University graduates annually</div>
+                            </div>
+                        </div>
+
+                        <p>More intriguing is the reverse brain drain. Albanians who left during the difficult post-communist years have been returning, bringing with them fluency in German markets, experience in Italian business practices, and understanding of British customer expectations. They speak multiple languages because they have lived in multiple countries. This is not theoretical multiculturalism; it is earned expertise.</p>
+
+                        <p>Geography helps. Tirana is three hours from London, two from Frankfurt—close enough for same-day return visits, a logistical impossibility with traditional offshore destinations. The time zone alignment with Europe means real-time collaboration, not asynchronous email chains stretched across hemispheres.</p>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">By the end of 2026, Albania expects clear progress in export-oriented services: more skilled jobs, higher median wages, and a greater share of higher-value digital and analytical functions.</div>
+                            <div class="pull-quote-author">Anxhela Buxhati, Ministry of Economy and Innovation</div>
+                        </div>
+
+                        <p>Buxhati also sees a broadening of the talent base outside of Tirana. "A national talent programme will expand multilingual and managerial capacity in secondary cities through employer-led academies, apprenticeships and diaspora mentoring schemes," she adds. "Our quarterly commitments are 400 people trained, 250 placed into export-oriented roles and 200 retained after 12 months. By the end of 2026, this will produce a more regionally balanced and competitive workforce."</p>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="data-card">
+                            <div class="data-number">3hrs</div>
+                            <div class="data-label">London to Tirana flight time</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">2hrs</div>
+                            <div class="data-label">Frankfurt to Tirana flight time</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">400</div>
+                            <div class="data-label">People trained quarterly in new talent programme</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button onclick="navigateToPage(1)">← Previous</button>
+                    <button onclick="navigateToPage(3)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Sophistication & Policy -->
+        <div class="page" data-page="3">
+            <div class="content-wrapper">
+                <div class="section-header">
+                    <div class="section-number">Chapter Three</div>
+                    <h2>Sophistication & Support</h2>
+                </div>
+                
+                <div class="article-grid">
+                    <div class="main-content">
+                        <h3>Sectoral Sophistication</h3>
+
+                        <p>The sector has moved substantially upmarket. Whilst customer service remains the foundation—particularly for Italian and German clients—Albanian firms have expanded into higher-value services. Financial process outsourcing has grown. Technical support and IT services have become significant offerings. Data analytics and digital transformation, services that would have been unthinkable a decade ago, are now standard fare.</p>
+
+                        <p>Healthcare and financial technology represent established specialisations. Several firms handle sensitive healthcare data processing, requiring not just technical capability but regulatory compliance. Others support fintech operations, managing everything from customer onboarding to transaction monitoring. These are not the standardised scripts of traditional call centres; they require judgement, expertise, and trust.</p>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">What Europe discovers in Albania is simple: competence without compromise, and talent that behaves like a partner—not an extension.</div>
+                            <div class="pull-quote-author">Arjodita Mustali, ABSL President</div>
+                        </div>
+
+                        <p>The success has been noted. International players have established presences. The scrutiny validates what local firms have long claimed: Albania offers not just acceptable quality at good prices, but genuine competence at competitive rates.</p>
+
+                        <h3>Policy as Enabler</h3>
+
+                        <p>Government support, often more rhetorical than substantive in developing markets, appears genuine in Albania's case. The Albanian Investment Development Agency (AIDA) actively promotes the sector, serving as an intermediary between foreign investors and government bodies. Recent initiatives include funding schemes for technology upgrades and e-commerce platforms, with applications processed within the fiscal year.</p>
+
+                        <p>More ambitious is Durana Tech Park, Albania's first science and technology park, which officially opened in April 2025 with its first cohort of 24 companies, six start-ups, two digital nomads, and two academic institutions. Located in Xhafzotaj, near the Port of Durrës, the park offers the usual incentives: zero per cent VAT, zero per cent profit tax for resident companies, and zero per cent personal income tax for employees for ten years.</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-value">5,000</span>
+                                <div class="stat-description">High-skill jobs projected at Durana Tech Park</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">€3.5B</span>
+                                <div class="stat-description">Technology exports over 20 years</div>
+                            </div>
+                        </div>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">German demand for dependable BPO capacity keeps outpacing supply. In Albania we already see multilingual teams serving German brands with audited processes, GDPR-aligned delivery and same-day collaboration.</div>
+                            <div class="pull-quote-author">Annabell Kreuzer, GIZ Western Balkans</div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="data-card">
+                            <div class="data-number">0%</div>
+                            <div class="data-label">VAT, profit tax & income tax at Durana Tech Park for 10 years</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">€95</div>
+                            <div class="data-label">Monthly social security cap at tech park</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">5,000</div>
+                            <div class="data-label">People targeted for GIZ qualification measures</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button onclick="navigateToPage(2)">← Previous</button>
+                    <button onclick="navigateToPage(4)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Agility & Economics -->
+        <div class="page" data-page="4">
+            <div class="content-wrapper">
+                <div class="section-header">
+                    <div class="section-number">Chapter Four</div>
+                    <h2>Agility & Economics</h2>
+                </div>
+                
+                <div class="article-grid">
+                    <div class="main-content">
+                        <h3>Agility as Advantage</h3>
+
+                        <p>Perhaps the sector's greatest strength is its nimbleness. Albanian firms can scale operations rapidly—a necessity in an industry where client needs fluctuate. Companies report adding 50-100 positions within weeks, a timeline that would test larger, more bureaucratic operations. This agility extends to service offerings; firms pivot between sectors and service types with relative ease.</p>
+
+                        <p>The flexibility reflects a broader national characteristic. Albania's economy grew <span class="highlight">3.9 per cent in 2024</span> despite global uncertainties, with employment averaging 68.6 per cent and unemployment falling to 9.4 per cent. The country has reduced poverty whilst maintaining fiscal discipline—public debt has fallen significantly whilst the banking sector remains well-capitalised.</p>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-value">3.9%</span>
+                                <div class="stat-description">Economic growth in 2024</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">68.6%</span>
+                                <div class="stat-description">Employment rate</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">9.4%</span>
+                                <div class="stat-description">Unemployment rate</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">9.8%</span>
+                                <div class="stat-description">Average wage growth in 2024</div>
+                            </div>
+                        </div>
+
+                        <p>Credit rating upgrades from both Standard & Poor's and Moody's signal growing confidence in Albania's economic management.</p>
+
+                        <h3>The Nearshoring Equation</h3>
+
+                        <p>Albania's established BPO sector reflects a broader recalibration in global outsourcing. Companies are reassessing the true cost of distance, factoring in travel expenses, management complexity, and the intangible costs of time-zone misalignment. Geopolitical considerations add another layer; concentrating operations in a few distant markets creates dependency that makes executives nervous.</p>
+
+                        <p>Nearshoring offers a middle path: meaningful cost savings without the complications of traditional offshoring. Albania's particular appeal is that it combines cost competitiveness with cultural affinity and geographical proximity. A German firm outsourcing to Albania achieves cost reductions approaching those of Philippine outsourcing, but with agents who may have lived in Germany, certainly speak German fluently, and can be visited in an afternoon.</p>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">Through 2027, Albania will steadily converge with EU standards through stronger digital governance, cybersecurity capacity, expanded broadband and more predictable public administration.</div>
+                            <div class="pull-quote-author">Anxhela Buxhati, Ministry of Economy and Innovation</div>
+                        </div>
+
+                        <p>The model has limitations. Albania's population constrains scaling possibilities—at some point, the talent pool reaches limits. Competition for skilled workers is already evident in Tirana, where average wages rose 9.8 per cent in 2024. As the sector matures and wages rise, the cost advantage will narrow, though this is years away.</p>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="data-card">
+                            <div class="data-number">50-100</div>
+                            <div class="data-label">Positions firms can add within weeks</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">2.8M</div>
+                            <div class="data-label">Albania's population</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button onclick="navigateToPage(3)">← Previous</button>
+                    <button onclick="navigateToPage(5)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Conclusion -->
+        <div class="page" data-page="5">
+            <div class="content-wrapper">
+                <div class="section-header">
+                    <div class="section-number">Chapter Five</div>
+                    <h2>Beyond the Call Centre</h2>
+                </div>
+                
+                <div class="article-grid">
+                    <div class="main-content">
+                        <p>Albania's BPO sector has long transcended its origins as a provider of inexpensive Italian-language customer service. It is a legitimate nearshore alternative for European companies seeking competent partners rather than mere cost reduction. The combination of multilingual capability, cultural alignment, geographical proximity, and genuine agility creates a compelling proposition that has been delivering results for over a decade.</p>
+
+                        <p>The sector faces challenges—maturity brings competition for talent, and Albania must continue investing in skills development to support increasingly sophisticated services. But the fundamentals have been proven sound: a young, educated workforce; supportive government policy; decent location; but perhaps most important, a track record of delivering quality service that exceeds initial expectations.</p>
+
+                        <div class="pull-quote">
+                            <div class="pull-quote-text">Albania doesn't lack talent; it lacks bridges. Our mission is to build those bridges so the next generation doesn't just find jobs—they create value.</div>
+                            <div class="pull-quote-author">Arjodita Mustali, ABSL President</div>
+                        </div>
+
+                        <p>In an industry built on trade-offs, Albania's BPO sector has demonstrated conclusively that proximity and price need not be mutually exclusive. That the country offers Adriatic beaches as well merely sweetens quarterly management reviews.</p>
+
+                        <div style="margin-top: 4rem; padding: 3rem; background: linear-gradient(135deg, var(--deep-navy) 0%, var(--adriatic-blue) 100%); color: white; border-radius: 2px; text-align: center;">
+                            <h3 style="color: white; margin-bottom: 1rem;">Key Takeaways</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                                <div>
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                                    <div style="font-weight: 600;">Solutions, Not Hours</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Outcome-based approach</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌍</div>
+                                    <div style="font-weight: 600;">Multilingual Excellence</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">50%+ workforce multilingual</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                                    <div style="font-weight: 600;">Rapid Scaling</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">50-100 hires in weeks</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+                                    <div style="font-weight: 600;">Same-Day Visits</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">2-3 hours from Europe</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="data-card">
+                            <div class="data-number">20+</div>
+                            <div class="data-label">Years proving competence without compromise</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">6</div>
+                            <div class="data-label">Major languages supported</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number">∞</div>
+                            <div class="data-label">Adriatic beaches for management reviews</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button onclick="navigateToPage(4)">← Previous</button>
+                    <button onclick="navigateToPage(0)">Back to Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 6;
+
+        function navigateToPage(pageNum) {
+            if (pageNum < 0 || pageNum >= totalPages) return;
+            
+            // Hide current page
+            document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
+            
+            // Update current page
+            currentPage = pageNum;
+            
+            // Show new page
+            document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+            
+            // Update navigation dots
+            document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+                if (index === currentPage) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add click handlers to navigation dots
+        document.querySelectorAll('.nav-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const pageNum = parseInt(this.getAttribute('data-page'));
+                navigateToPage(pageNum);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                navigateToPage(currentPage + 1);
+            } else if (e.key === 'ArrowLeft') {
+                navigateToPage(currentPage - 1);
+            }
+        });
+    </script>
+</body>
+</html>
